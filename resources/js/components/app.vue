@@ -1,3 +1,3 @@
 <template>
-    First Componet
+    <router-view/>
 </template>
