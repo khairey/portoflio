@@ -24,3 +24,10 @@ Route::controller('\App\Http\Controllers\Api\AuthController')->group(function(){
     Route::post('login', 'login'); // login
     
 });
+
+Route::controller('\App\Http\Controllers\Api\AboutController')->group(function(){
+    Route::get('edit_about', 'edit_about');
+    Route::post('update_about/{id}', 'update_about');
+    
+});
+

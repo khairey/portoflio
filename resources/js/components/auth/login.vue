@@ -29,11 +29,11 @@ const login = async () => {
         <div class="formLogin">
             <p class="text-danger" v-if="error">{{ error }}</p>
             <form @submit.prevent="login">
-                <input type="email" placeholder="Enter your name" v-model="form.email">
+                <input class="input-auth" type="email" placeholder="Enter your name" v-model="form.email">
                 <br>
-                <input type="password" placeholder="Enter your password" v-model="form.password">
+                <input class="input-auth"  type="password" placeholder="Enter your password" v-model="form.password">
                 <br>
-                <input type="submit" value="Login" class="submit">
+                <input  class="input-auth submit" type="submit" value="Login" >
             </form>
         </div>
     </div>
@@ -66,7 +66,7 @@ const login = async () => {
     overflow: hidden;
 }
 
-input {
+.input-auth {
     background: rgba(228, 232, 243, 0.8);
     background-position: 0.5em 0.6em;
     border: none;
@@ -80,11 +80,11 @@ input {
 
 }
 
-input:hover {
+.input-auth:hover {
     background-color: rgba(255, 255, 255, 255);
 }
 
-input:focus {
+.input-auth:focus {
     background-color: rgba(255, 255, 255, 255);
 }
 

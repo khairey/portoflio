@@ -12,12 +12,23 @@ import notFound from '../components/notFound.vue'
 //login
 import login from '../components/auth/login.vue'
 
+import adminAboutIndex from '../components/admin/about/index.vue'
+
 const routes = [
     //admin
     {
         path: '/admin/home',
         name: 'adminHome',
         component: homeAdminIndex,
+        meta:{
+            requiresAuth:true
+        }
+    },
+    //about
+    {
+        path: '/admin/about',
+        name: 'adminAbout',
+        component: adminAboutIndex,
         meta:{
             requiresAuth:true
         }
