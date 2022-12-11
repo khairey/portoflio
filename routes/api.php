@@ -30,4 +30,9 @@ Route::controller('\App\Http\Controllers\Api\AboutController')->group(function()
     Route::post('update_about/{id}', 'update_about');
     
 });
+Route::controller('\App\Http\Controllers\Api\ServiceController')->group(function(){
+    Route::get('get_all_service', 'get_all_service'); 
+    Route::post('/create_service', 'create_service'); 
+    
+});
 
