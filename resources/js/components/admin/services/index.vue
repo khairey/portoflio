@@ -3,6 +3,8 @@ import Base from '../layouts/base.vue';
 import { onMounted, ref } from 'vue';
 let services = ref([]);
 const showModal = ref(false);
+const hideModal = ref(true);
+const editMode = ref(false);
 let form = ref({
     name: '',
     icon: '',
@@ -23,17 +25,65 @@ const openModal = () => {
     showModal.value = !showModal.value;
 }
 
+const closeModal = () => {
+    showModal.value = !hideModal.value;
+    form.value = ({})
+    editMode.value = false
+}
+
 const createService = async () => {
-    let response = await axios.post('/api/create_service',form.value)
-    .then(response => {
-        getServices()
-        openModal()
-        toast.fire({
+    let response = await axios.post('/api/create_service', form.value)
+        .then(response => {
+            getServices()
+            closeModal()
+            toast.fire({
                 icon: 'success',
                 title: "Created successfully"
             })
+        })
+    // services.value = response.data.services;
+}
+
+const editModal = (service) => {
+    editMode.value = true
+    showModal.value = !showModal.value
+    form.value = service
+}
+
+
+const updateService = async () => {
+    let response = await axios.post('/api/update_service/' + form.value.id, form.value)
+        .then(response => {
+            getServices()
+            closeModal()
+            toast.fire({
+                icon: 'success',
+                title: "Updated successfully"
+            })
+        })
+}
+
+const deleteService = (id) => {
+    toast.fire({
+        title: 'Are you sure',
+        text: 'You cant go Back !!',
+        icon: 'warning',
+        showCancelButton: true,
+        showConfirmButton: true,
+        confirmButtonText: 'yes Delete',
     })
-    services.value = response.data.services;
+        .then((result) => {
+            if (result.value) {
+                axios.get('/api/delete_service/' + id)
+                    .then(() => {
+                        toast.fire({
+                            icon: 'success',
+                            title: "Deleted successfully"
+                        })
+                        getServices()
+                    })
+            }
+        })
 }
 </Script>
 <template>
@@ -104,10 +154,10 @@ const createService = async () => {
                                 {{ item.description }}
                             </p>
                             <div>
-                                <button class="btn-icon success">
+                                <button class="btn-icon success" @click="editModal(item)">
                                     <i class="fas fa-pencil-alt"></i>
                                 </button>
-                                <button class="btn-icon danger">
+                                <button class="btn-icon danger" @click="deleteService(item.id)">
                                     <i class="far fa-trash-alt"></i>
                                 </button>
                             </div>
@@ -118,10 +168,11 @@ const createService = async () => {
                 <!-------------- SERVICES MODAL --------------->
                 <div class="modal main__modal " :class="{ show: showModal }">
                     <div class="modal__content">
-                        <span class="modal__close btn__close--modal" @click="openModal">×</span>
-                        <h3 class="modal__title">Add Service</h3>
+                        <span class="modal__close btn__close--modal" @click="closeModal">×</span>
+                        <h3 class="modal__title" v-show="editMode == false">Add Service</h3>
+                        <h3 class="modal__title" v-show="editMode == true">Update Service</h3>
                         <hr class="modal_line"><br>
-                        <form @submit.prevent="createService()">
+                        <form @submit.prevent="editMode ? updateService() : createService()">
                             <div>
                                 <p>Service Name</p>
                                 <input type="text" class="input" v-model="form.name" />
@@ -136,10 +187,11 @@ const createService = async () => {
                             <br>
                             <hr class="modal_line">
                             <div class="model__footer">
-                                <button class="btn mr-2 btn__close--modal" @click="openModal">
+                                <button class="btn mr-2 btn__close--modal" @click="closeModal">
                                     Cancel
                                 </button>
-                                <button class="btn btn-secondary btn__close--modal ">Save</button>
+                                <button class="btn btn-secondary  " v-show="editMode == false">Save</button>
+                                <button class="btn btn-secondary  " v-show="editMode == true">Update</button>
                             </div>
                         </form>
                     </div>

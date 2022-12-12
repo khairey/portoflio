@@ -8,7 +8,7 @@ const toast = Swal.mixin({
     position: 'top-end',
     showConfirmButton: false,
     timer: 3000,
-    timeProgressBar: true
+    timerProgressBar: true
 })
 window.toast = toast
 
