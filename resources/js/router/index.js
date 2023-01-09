@@ -6,6 +6,8 @@ import homeAdminIndex from '../components/admin/home/index.vue'
 import adminAboutIndex from '../components/admin/about/index.vue'
 //services 
 import adminServiceIndex from '../components/admin/services/index.vue'
+//Skills 
+import adminSkillIndex from '../components/admin/skills/index.vue'
 
 
 
@@ -43,6 +45,15 @@ const routes = [
         path: '/admin/services',
         name: 'adminService',
         component: adminServiceIndex,
+        meta:{
+            requiresAuth:true
+        }
+    },
+    //skills
+    {
+        path: '/admin/skills',
+        name: 'adminSkill',
+        component: adminSkillIndex,
         meta:{
             requiresAuth:true
         }

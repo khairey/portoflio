@@ -36,4 +36,10 @@ Route::controller('\App\Http\Controllers\Api\ServiceController')->group(function
     Route::post('/update_service/{id}', 'update_service'); 
     Route::get('/delete_service/{id}', 'delete_service'); 
 });
+Route::controller('\App\Http\Controllers\Api\SkillController')->group(function(){
+    Route::get('get_all_skill', 'get_all_skill'); 
+    Route::post('/create_skill', 'create_skill'); 
+    Route::post('/update_skill/{id}', 'update_skill'); 
+    Route::get('/delete_skill/{id}', 'delete_skill'); 
+});
 
